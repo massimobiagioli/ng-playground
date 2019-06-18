@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FakeService } from './fake.service';
+import { MessageService } from './message.service';
 
 @Component({
   selector: 'dummy',
@@ -15,11 +16,13 @@ export class DummyComponent {
   @Output() 
   notify: EventEmitter<string> = new EventEmitter<string>(); 
 
-  constructor(private fakeService: FakeService) {
+  constructor(private fakeService: FakeService, private messageService: MessageService) {
   }
 
   onConfirm() {
-    this.notify.emit(this.inputValue + ' ' + this.fakeService.tester());
+    let msg = this.inputValue + ' ' + this.fakeService.tester();
+    this.notify.emit(msg);
+    this.messageService.sendMessage(`messaggio inviato dal componente: ${msg}`);
   }
   
 }
